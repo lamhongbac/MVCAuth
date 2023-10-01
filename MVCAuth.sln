@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCAuth", "MVCAuth\MVCAuth.csproj", "{6BBB2F33-A30A-4EA5-998F-B2AFD97C1CCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BBB2F33-A30A-4EA5-998F-B2AFD97C1CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BBB2F33-A30A-4EA5-998F-B2AFD97C1CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BBB2F33-A30A-4EA5-998F-B2AFD97C1CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BBB2F33-A30A-4EA5-998F-B2AFD97C1CCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2EE19ABF-85CE-47C0-996E-8F2819E0C0F8}
+	EndGlobalSection
+EndGlobal
