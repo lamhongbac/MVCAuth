@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MVCAuth.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(option=>
     {
@@ -13,6 +14,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         option.LogoutPath = "/Home/Logout";
 
     });
+builder.Services.AddTransient<MSASignInManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
