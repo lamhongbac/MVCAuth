@@ -34,13 +34,15 @@ namespace MVCAuth.Controllers
                         new Claim(ClaimTypes.NameIdentifier,"Lam Hong Bac"),
                     new Claim("Roles","admin;cms"),
                     new Claim("Email",model.Email),
+                    new Claim("CongTy","MSA"),
+                    new Claim("Address","123")
                     }; 
                     ClaimsIdentity identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
 
                     AuthenticationProperties properties = new AuthenticationProperties() 
                     { 
                      AllowRefresh = true,
-                     IsPersistent = model.KeepLogin,
+                     IsPersistent = model.KeepLogin
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
