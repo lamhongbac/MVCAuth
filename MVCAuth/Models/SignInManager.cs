@@ -13,7 +13,19 @@ namespace MVCAuth.Models
             }
 
         }
+        public ClaimsPrincipal? User
+        {
+            get
+            {
+                var x = _httpContextAccessor.HttpContext?.User;
+                if (x != null)
+                {
+                    return x;
+                }
+                return null;
+            }
 
+        }
         IHttpContextAccessor _httpContextAccessor;
         public MSASignInManager(IHttpContextAccessor httpContextAccessor)
         {

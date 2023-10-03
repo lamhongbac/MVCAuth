@@ -13,10 +13,13 @@ namespace MVCAuth.Controllers
     {
         private readonly ILogger<HomeController> _logger;        
         private IHttpContextAccessor _httpContextAccessor;
-
-        public HomeController(IHttpContextAccessor httpContextAccessor, ILogger<HomeController> logger)
+        private UserManager userManager;
+        public HomeController(IHttpContextAccessor httpContextAccessor, 
+            ILogger<HomeController> logger,
+            UserManager userManager)
         {
             _httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
             _logger = logger;
             var x = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get in the constructor
         }
@@ -46,6 +49,22 @@ namespace MVCAuth.Controllers
 
             return RedirectToAction("Login","Login");
         }
+        public IActionResult UpdateProfile()
+        {
+            UpdateProfileVM vm = userManager.GetProfile();
+            return View(vm);
+        }
+        [HttpPost]
+        public IActionResult UpdateProfile(UpdateProfileVM model)
+        {
+            string error = userManager.UpdateProfile(model);
 
+            if (error != null)
+            {
+                ModelState.AddModelError("", error);
+                
+            }
+            return View(model);
+        }
     }
 }

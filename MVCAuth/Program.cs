@@ -14,7 +14,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         option.LogoutPath = "/Home/Logout";
 
     });
-builder.Services.AddTransient<MSASignInManager>();
+builder.Services.AddSingleton<MSASignInManager>();
+builder.Services.AddSingleton<UserManager>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

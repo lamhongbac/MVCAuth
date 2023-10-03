@@ -27,22 +27,23 @@ namespace MVCAuth.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.Email == "bac" && model.Password=="123") {
-                
+                if (model.Email == "lamhong.bac@gmail.com" && model.Password == "123")
+                {
+
                     List<Claim> claims = new List<Claim>()
-                    { 
+                    {
                         new Claim(ClaimTypes.NameIdentifier,"Lam Hong Bac"),
-                    new Claim("Roles","admin;cms"),
-                    new Claim("Email",model.Email),
+                    new Claim(ClaimTypes.Role,"admin;cms"),
+                    new Claim(ClaimTypes.Email,model.Email),
                     new Claim("CongTy","MSA"),
                     new Claim("Address","123")
-                    }; 
-                    ClaimsIdentity identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                    };
+                    ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    AuthenticationProperties properties = new AuthenticationProperties() 
-                    { 
-                     AllowRefresh = true,
-                     IsPersistent = model.KeepLogin
+                    AuthenticationProperties properties = new AuthenticationProperties()
+                    {
+                        AllowRefresh = true,
+                        IsPersistent = model.KeepLogin
                     };
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
@@ -51,11 +52,28 @@ namespace MVCAuth.Controllers
                     return RedirectToAction("Index", "Home");
 
                 }
-                
+
             }
             ViewData["validateMessage"] = "User or password is not matched";
-            return View();
+            return View(model);
 
+        }
+
+        public IActionResult Register()
+        {
+            RegisterVM model = new RegisterVM();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                //kiem tra valid va ghi vao CSDL
+            }
+            return View(model);
         }
     }
 }
