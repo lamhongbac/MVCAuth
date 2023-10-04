@@ -5,12 +5,18 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Mvc;
 using MVCAuth.Models;
+using System.Reflection;
 
 
 namespace MVCAuth.Controllers
 {
     public class LoginController : Controller
     {
+        MSASignInManager accountService;
+        public LoginController(MSASignInManager accountService)
+        {
+            this.accountService = accountService;
+        }
         public IActionResult Login()
         {
             ClaimsPrincipal claimsPrincipal = HttpContext.User;
@@ -25,29 +31,21 @@ namespace MVCAuth.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM model)
         {
+            bool isSignIn = false;
             if (ModelState.IsValid)
             {
-                if (model.Email == "lamhong.bac@gmail.com" && model.Password == "123")
+                isSignIn =await accountService.SignIn(model.Email, model.Password, model.KeepLogin);
+                if (isSignIn)
                 {
 
-                    List<Claim> claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.NameIdentifier,"Lam Hong Bac"),
-                    new Claim(ClaimTypes.Role,"admin;cms"),
-                    new Claim(ClaimTypes.Email,model.Email),
-                    new Claim("CongTy","MSA"),
-                    new Claim("Address","123")
-                    };
-                    ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    
+                    //
+                    // su dung session de xac dinh da login la 1 cach khac 
+                    // dung no de xac dinh ==> roles
+                    // sau do thuc hien authorized
+                    //
 
-                    AuthenticationProperties properties = new AuthenticationProperties()
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = model.KeepLogin
-                    };
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(identity), properties);
+                    HttpContext.Session.SetString("userName", model.Email);
 
                     return RedirectToAction("Index", "Home");
 
@@ -74,6 +72,11 @@ namespace MVCAuth.Controllers
                 //kiem tra valid va ghi vao CSDL
             }
             return View(model);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

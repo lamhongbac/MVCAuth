@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace MVCAuth.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;        
@@ -23,15 +23,15 @@ namespace MVCAuth.Controllers
             _logger = logger;
             var x = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier); //get in the constructor
         }
-
+        [MSAAuthorizeAttribute(Roles = "Admin,IT")]
         public IActionResult Index()
         {
             // you could also get in your method
             var x = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             return View();
         }
-        
 
+        [MSAAuthorizeAttribute(Roles = "IT,HR")]
         public IActionResult Privacy()
         {
             return View();
@@ -46,6 +46,8 @@ namespace MVCAuth.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("UserName");
+
 
             return RedirectToAction("Login","Login");
         }

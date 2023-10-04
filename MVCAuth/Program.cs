@@ -12,10 +12,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         option.LoginPath = "/Login/Login";
         option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         option.LogoutPath = "/Home/Logout";
-
+        option.AccessDeniedPath= "/Home/AccessDenied";
     });
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(1800);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<MSASignInManager>();
 builder.Services.AddSingleton<UserManager>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,12 +38,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
-app.UseAuthentication();    
-app.UseAuthorization();
+//app.UseAuthentication();    
+//chuyen qua su dung Middleware tu viet
+app.UseMiddleware<MSAAuthenticationMW>();
 
+//app.UseAuthorization();
+app.UseMiddleware<MSAAuthorizationMW>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Login}/{id?}");
