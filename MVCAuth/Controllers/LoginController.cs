@@ -8,8 +8,16 @@ using MVCAuth.Models;
 using System.Reflection;
 
 
+
+
 namespace MVCAuth.Controllers
 {
+
+    /// <summary>
+    /// https://github.com/lamhongbac/MVCAuth.git
+    /// https://www.youtube.com/watch?v=uGoNCJf0t1g
+    /// https://www.youtube.com/watch?v=8hgEfIE0WSE
+    /// </summary>
     public class LoginController : Controller
     {
         MSASignInManager accountService;
