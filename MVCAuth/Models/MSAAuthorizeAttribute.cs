@@ -4,6 +4,9 @@ using NuGet.Protocol;
 
 namespace MVCAuth.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class MSAAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         //danh sach role trong 1 action method
